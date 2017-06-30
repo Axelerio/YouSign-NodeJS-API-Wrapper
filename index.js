@@ -11,7 +11,7 @@ function buildError(){
 function checkAuth() {
     return new Promise((resolve, reject)=>{
         var command = ["php", "checkAuth.php"]
-        exec(command.join(' '), (error, stdout, stderr)=>{
+        exec(command.join(' '), { cwd: __dirname }, (error, stdout, stderr)=>{
             if(!error && !stderr){
                 try{
                     var result = JSON.parse(stdout)
@@ -51,7 +51,7 @@ function initSignature(fileToSignRelativePath, firstname, lastname, email, phone
         if(command.length < 8){
             return reject(buildError("Missing parameters"))
         }
-        exec(command.join(' '), (error, stdout, stderr)=>{
+        exec(command.join(' '), { cwd: __dirname }, (error, stdout, stderr)=>{
             if(!error && !stderr){
                 try{
                     var result = JSON.parse(stdout)
@@ -83,7 +83,7 @@ function listSignatures(email) {
         if(command.length < 3){
             return reject(buildError("Missing parameters"))
         }
-        exec(command.join(' '), (error, stdout, stderr)=>{
+        exec(command.join(' '), { cwd: __dirname }, (error, stdout, stderr)=>{
             if(!error && !stderr){
                 try{
                     var result = JSON.parse(stdout)
@@ -112,8 +112,8 @@ module.exports = {
     listSignatures: listSignatures
 }
 
-/* Example call :
-listSignatures("jean@dubois.org").then((res)=>{
+// Example call :
+/*listSignatures("jean@dubois.org").then((res)=>{
     console.log(res)
 }).catch((err)=>{
     console.error(err)
