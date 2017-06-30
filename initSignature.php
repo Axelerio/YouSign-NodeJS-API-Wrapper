@@ -28,7 +28,7 @@ if(!($documentToSignRelativePath && $firstName && $lastName && $mail && $phone &
     $loader = require_once dirname(__FILE__).'/vendor/autoload.php';
 
     // Définition du chemin de configuration
-    $configFile = dirname(__FILE__).'/ysApiParameters.ini';
+    $configFile = dirname(__FILE__).'/../ysApiParameters.ini';
 
     // Création du client en passant les identifiants en paramètres
     $client = new \YousignAPI\YsApi($configFile);
