@@ -1,0 +1,23 @@
+{
+    "name": "yousign/yousign-api-client",
+    "description": "A PHP client for the Yousign API",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Kevin Auvinet",
+            "email": "kevin.auvinet@yousign.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "nusphere/nusoap": "0.9.6"
+    },
+    "autoload" : {
+        "psr-4": {"YousignAPI\\": "src/"}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.3-dev"
+        }
+    }
+}

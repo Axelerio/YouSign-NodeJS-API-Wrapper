@@ -1,0 +1,84 @@
+[
+    {
+        "name": "nusphere/nusoap",
+        "version": "0.9.6",
+        "version_normalized": "0.9.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wooxo/nusoap.git",
+            "reference": "c020c749d34ed1c52669fd0068f7b557bbcd0a8f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/wooxo/nusoap/zipball/c020c749d34ed1c52669fd0068f7b557bbcd0a8f",
+            "reference": "c020c749d34ed1c52669fd0068f7b557bbcd0a8f",
+            "shasum": ""
+        },
+        "time": "2015-12-04T12:05:20+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "lib/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Wooxo SA",
+                "email": "dev@wooxo.fr"
+            }
+        ],
+        "description": "NuSoap Repository for Composer with some fixes",
+        "homepage": "https://github.com/wooxo/nusoap",
+        "keywords": [
+            "composer",
+            "nusoap",
+            "php"
+        ]
+    },
+    {
+        "name": "yousign/yousign-api-client",
+        "version": "1.4.0",
+        "version_normalized": "1.4.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Yousign/yousign-api-client-php.git",
+            "reference": "1ba99049d6a337dbe04c5bd20e003bf0b408f6ef"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Yousign/yousign-api-client-php/zipball/1ba99049d6a337dbe04c5bd20e003bf0b408f6ef",
+            "reference": "1ba99049d6a337dbe04c5bd20e003bf0b408f6ef",
+            "shasum": ""
+        },
+        "require": {
+            "nusphere/nusoap": "0.9.6",
+            "php": ">=5.3"
+        },
+        "time": "2017-04-11T07:58:28+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "YousignAPI\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "authors": [
+            {
+                "name": "Kevin Auvinet",
+                "email": "kevin.auvinet@yousign.fr"
+            }
+        ],
+        "description": "A PHP client for the Yousign API"
+    }
+]
