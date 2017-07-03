@@ -5,9 +5,12 @@ A Node.js API client for the YouSign signature API. Works as a wrapper around th
 The original PHP Api : https://github.com/Yousign/yousign-api-client-php
 ## Usage:
 
-1. Install Node.js (recent version with ES6 support)
-2. Install PHP (version 7+ recommended)
-3. Clone the repo
+1. Get a recent Node.js version (with ES6 support)
+2. Install PHP (version 7+ recommended). Make it so that you can run php by typing "php" in terminal
+3. Install this module into your project
+```bash
+npm i yousign-nodejs-api-wrapper --save
+```
 4. Copy example_ysApiParameters.ini in the module's folder into your project root, rename it to ysApiParameters.ini
 5. Set your Yousign credentials into the file. Please note that if isEncryptedPassword = true your password must be in the following format : **sha1(sha1(YOUR_PASSWORD)+sha1(YOUR_PASSWORD))** (with + being a concat operator). Otherwise set the boolean to false and just leave it as clear text. But that's bad mkay.
 6. Import the index.js module into your project
