@@ -42,10 +42,19 @@ function checkAuth() {
  * @param {string} email - Email of the person that will sign
  * @param {string} phone - Phone of the person that will sign, including prefix (+33...). 
  * Must be a real Phone number as the user will receive an SMS confirmation code.
- * @param {string} signatureCoordinates - Pixel coordinates of the rectangle where the signature will appear on the document.
- * Example : 351,32,551,132
+ * @param {string} signatureCoordinates - Pixel coordinates of the rectangle where the signature will
+ *  appear on the document. Example : 351,32,551,132
+ * @param {string} userRedirectUrl - A url where the user will be redirected to after he signs
+ * @param {string} onSignatureStatusChangedUrl - The YouSign server will send GET requests to this url
+ *  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete
+ * @param {string} signatureCancelCallbackUrl - As per the YouSign API docs, this parameter is required
+ * if you want the onSignatureStatusChangedUrl to be called when the user cancels the signature, even
+ * if this Url itself apparently doesn't get called.
+ * @returns {string} iframeUrl - the url of the iframe to do the signature
+ * @returns {object} details - details of the signature, contains de demand ID which can be used later on
  */
-function initSignature(fileToSignRelativePath, firstname, lastname, email, phone, signatureCoordinates) {
+function initSignature(fileToSignRelativePath, firstname, lastname, email, phone,
+    signatureCoordinates, userRedirectUrl, onSignatureStatusChangedUrl, signatureCancelCallbackUrl) {
     return new Promise((resolve, reject)=>{
         var command = ["php", "initSignature.php"].concat(Array.from(arguments))
         if(command.length < 8){
@@ -64,6 +73,11 @@ function initSignature(fileToSignRelativePath, firstname, lastname, email, phone
                 } else if(result.success != true){
                     return reject(result)
                 } else {
+                    //Add the redirect and callback urls to the signature page url as GET parameters
+                    var suffix = "?urlsuccess=" + encodeURIComponent(userRedirectUrl) +
+                        "&urlcallback=" + encodeURIComponent(onSignatureStatusChangedUrl) +
+                        "&urlcancel=" + encodeURIComponent(signatureCancelCallbackUrl)
+                    result.signingUrl = result.signingUrl + suffix
                     return resolve(result)
                 }
             } else {

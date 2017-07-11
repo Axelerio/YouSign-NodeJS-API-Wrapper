@@ -91,7 +91,8 @@ if(!($documentToSignRelativePath && $firstName && $lastName && $mail && $phone &
     else 
     {
         $output = array("success" => true,
-        "signingUrl" => $client->getIframeUrl($result['tokens']['token']));
+        "signingUrl" => $client->getIframeUrl($result['tokens']['token']),
+        "details" => $result);
     }
 }
 echo (json_encode($output, JSON_UNESCAPED_SLASHES));
