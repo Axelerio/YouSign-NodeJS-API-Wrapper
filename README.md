@@ -35,7 +35,7 @@ ysAPIWrapper.listSignatures("jean@dubois.org").then((res)=>{
 <dt><a href="#checkAuth">checkAuth()</a></dt>
 <dd><p>Checks if the YouSign API is up and if our credentials are valid</p>
 </dd>
-<dt><a href="#initSignature">initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl)</a> ⇒ <code>string</code> | <code>object</code></dt>
+<dt><a href="#initSignature">initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl)</a> ⇒ <code>object</code></dt>
 <dd><p>Inits a signature and returns the url of the signing page</p>
 </dd>
 <dt><a href="#listSignatures">listSignatures(email)</a></dt>
@@ -51,11 +51,14 @@ Checks if the YouSign API is up and if our credentials are valid
 **Kind**: global function
 <a name="initSignature"></a>
 
-## initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) ⇒ <code>string</code> \| <code>object</code>
+## initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) ⇒ <code>object</code>
 Inits a signature and returns the url of the signing page
 
 **Kind**: global function
-**Returns**: <code>string</code> - iframeUrl - the url of the iframe to do the signature<code>object</code> - details - details of the signature, contains de demand ID which can be used later on
+**Returns**: <code>object</code> - promise - a promise that resolves to an object containing :
+{string} iframeUrl - the url of the iframe to do the signature
+{object} details - details of the signature, contains de demand ID as well as the signature token
+which can be used later on to match the token sent to onSignatureStatusChangedUrl by YouSign
 
 | Param | Type | Description |
 | --- | --- | --- |

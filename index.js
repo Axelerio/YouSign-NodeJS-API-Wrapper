@@ -49,8 +49,10 @@ function checkAuth() {
  *  the signature process
  * @param {string} onSignatureStatusChangedUrl - The YouSign server will send GET requests to this url
  *  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete
- * @returns {string} iframeUrl - the url of the iframe to do the signature
- * @returns {object} details - details of the signature, contains de demand ID which can be used later on
+ * @returns {object} promise - a promise that resolves to an object containing : 
+ * {string} iframeUrl - the url of the iframe to do the signature 
+ * {object} details - details of the signature, contains de demand ID as well as the signature token
+ * which can be used later on to match the token sent to onSignatureStatusChangedUrl by YouSign
  */
 function initSignature(fileToSignRelativePath, firstname, lastname, email, phone,
     signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) {
