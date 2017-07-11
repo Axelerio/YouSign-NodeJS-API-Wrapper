@@ -1,6 +1,6 @@
 {
   "name": "yousign-nodejs-api-wrapper",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "A Node.js API client for the YouSign signature API. Works as a wrapper around the Yousign PHP API client",
   "main": "index.js",
   "scripts": {
