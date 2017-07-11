@@ -73,7 +73,7 @@ function initSignature(fileToSignRelativePath, firstname, lastname, email, phone
                     return reject(result)
                 } else {
                     //Add the redirect and callback urls to the signature page url as GET parameters
-                    var suffix = "?urlsuccess=" + encodeURIComponent(userRedirectUrl) +
+                    var suffix = "?urlsuccess=" + encodeURIComponent(userSuccessRedirectUrl) +
                         "&urlcancel=" + encodeURIComponent(userCancelRedirectUrl) +
                         "&urlcallback=" + encodeURIComponent(onSignatureStatusChangedUrl)
                     result.signingUrl = result.signingUrl + suffix
