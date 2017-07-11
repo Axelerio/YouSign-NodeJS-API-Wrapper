@@ -13,14 +13,14 @@ error_reporting(E_ERROR | E_PARSE | E_NOTICE);
  */
 
  // Parse parameters
-$documentToSignRelativePath = isset($argv[1]) ? $argv[1] : false;
+$documentToSignAbsolutePath = isset($argv[1]) ? $argv[1] : false;
 $firstName = isset($argv[2]) ? $argv[2] : false;
 $lastName = isset($argv[3]) ? $argv[3] : false;
 $mail = isset($argv[4]) ? $argv[4] : false;
 $phone = isset($argv[5]) ? $argv[5] : false;
 $signatureRectangleCoords = isset($argv[6]) ? $argv[6] : false;
 
-if(!($documentToSignRelativePath && $firstName && $lastName && $mail && $phone && $signatureRectangleCoords)){
+if(!($documentToSignAbsolutePath && $firstName && $lastName && $mail && $phone && $signatureRectangleCoords)){
      $output = array("success" => false, 
     "errors" => "Missing parameters. You must send : documentToSignRelativePath firstName lastName mail phone signatureRectangleCoords\n Example : php initSignature.php document1.pdf jean dubois jean@dubois.org +33674997509 351,32,551,132");
 } else {
@@ -34,7 +34,7 @@ if(!($documentToSignRelativePath && $firstName && $lastName && $mail && $phone &
     $client = new \YousignAPI\YsApi($configFile);
 
     // Chemin des fichiers à signer
-    $pathFile = dirname(__FILE__).'/'.$documentToSignRelativePath;
+    $pathFile = $documentToSignAbsolutePath;
 
     // Création de la liste des fichiers à signer
     $listFiles = array (

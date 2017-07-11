@@ -35,8 +35,8 @@ function checkAuth() {
 
 /**
  * @desc Inits a signature and returns the url of the signing page 
- * @param {string} fileToSignRelativePath - The path to the PDF document to sign, relative to the module folder. 
- * Example : document1.pdf
+ * @param {string} fileToSignAbsolutePath - The path to the PDF document to sign. 
+ * Example : __dirname + '/document1.pdf'
  * @param {string} firstName - Firstname of the person that will sign
  * @param {string} lastName - Lastname of the person that will sign
  * @param {string} email - Email of the person that will sign
@@ -49,12 +49,12 @@ function checkAuth() {
  *  the signature process
  * @param {string} onSignatureStatusChangedUrl - The YouSign server will send GET requests to this url
  *  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete
- * @returns {object} promise - a promise that resolves to an object containing : 
+ * @returns {*} promise - a promise that resolves to an object containing : 
  * {string} iframeUrl - the url of the iframe to do the signature 
  * {object} details - details of the signature, contains de demand ID as well as the signature token
  * which can be used later on to match the token sent to onSignatureStatusChangedUrl by YouSign
  */
-function initSignature(fileToSignRelativePath, firstname, lastname, email, phone,
+function initSignature(fileToSignAbsolutePath, firstname, lastname, email, phone,
     signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) {
     return new Promise((resolve, reject)=>{
         var command = ["php", "initSignature.php"].concat(Array.from(arguments))
