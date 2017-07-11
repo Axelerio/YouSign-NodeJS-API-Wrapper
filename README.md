@@ -35,7 +35,7 @@ ysAPIWrapper.listSignatures("jean@dubois.org").then((res)=>{
 <dt><a href="#checkAuth">checkAuth()</a></dt>
 <dd><p>Checks if the YouSign API is up and if our credentials are valid</p>
 </dd>
-<dt><a href="#initSignature">initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates)</a></dt>
+<dt><a href="#initSignature">initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl)</a> ⇒ <code>string</code> | <code>object</code></dt>
 <dd><p>Inits a signature and returns the url of the signing page</p>
 </dd>
 <dt><a href="#listSignatures">listSignatures(email)</a></dt>
@@ -51,10 +51,11 @@ Checks if the YouSign API is up and if our credentials are valid
 **Kind**: global function
 <a name="initSignature"></a>
 
-## initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates)
+## initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) ⇒ <code>string</code> \| <code>object</code>
 Inits a signature and returns the url of the signing page
 
 **Kind**: global function
+**Returns**: <code>string</code> - iframeUrl - the url of the iframe to do the signature<code>object</code> - details - details of the signature, contains de demand ID which can be used later on
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -63,7 +64,10 @@ Inits a signature and returns the url of the signing page
 | lastName | <code>string</code> | Lastname of the person that will sign |
 | email | <code>string</code> | Email of the person that will sign |
 | phone | <code>string</code> | Phone of the person that will sign, including prefix (+33...).  Must be a real Phone number as the user will receive an SMS confirmation code. |
-| signatureCoordinates | <code>string</code> | Pixel coordinates of the rectangle where the signature will appear on the document. Example : 351,32,551,132 |
+| signatureCoordinates | <code>string</code> | Pixel coordinates of the rectangle where the signature will  appear on the document. Example : 351,32,551,132 |
+| userSuccessRedirectUrl | <code>string</code> | A url where the user will be redirected to after he signs |
+| userCancelRedirectUrl | <code>string</code> | A url where the user will be redirected to after he cancels  the signature process |
+| onSignatureStatusChangedUrl | <code>string</code> | The YouSign server will send GET requests to this url  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete |
 
 <a name="listSignatures"></a>
 
