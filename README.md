@@ -35,7 +35,7 @@ ysAPIWrapper.listSignatures("jean@dubois.org").then((res)=>{
 <dt><a href="#checkAuth">checkAuth()</a></dt>
 <dd><p>Checks if the YouSign API is up and if our credentials are valid</p>
 </dd>
-<dt><a href="#initSignature">initSignature(fileToSignAbsolutePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl)</a> ⇒ <code>*</code></dt>
+<dt><a href="#initSignature">initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatures, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl)</a> ⇒ <code>string</code> | <code>object</code></dt>
 <dd><p>Inits a signature and returns the url of the signing page</p>
 </dd>
 <dt><a href="#listSignatures">listSignatures(email)</a></dt>
@@ -51,23 +51,20 @@ Checks if the YouSign API is up and if our credentials are valid
 **Kind**: global function
 <a name="initSignature"></a>
 
-## initSignature(fileToSignAbsolutePath, firstName, lastName, email, phone, signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) ⇒ <code>\*</code>
+## initSignature(fileToSignRelativePath, firstName, lastName, email, phone, signatures, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) ⇒ <code>string</code> \| <code>object</code>
 Inits a signature and returns the url of the signing page
 
 **Kind**: global function
-**Returns**: <code>\*</code> - promise - a promise that resolves to an object containing :
-{string} iframeUrl - the url of the iframe to do the signature
-{object} details - details of the signature, contains de demand ID as well as the signature token
-which can be used later on to match the token sent to onSignatureStatusChangedUrl by YouSign
+**Returns**: <code>string</code> - iframeUrl - the url of the iframe to do the signature<code>object</code> - details - details of the signature, contains de demand ID which can be used later on
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fileToSignAbsolutePath | <code>string</code> | The path to the PDF document to sign.  Example : __dirname + '/document1.pdf' |
+| fileToSignRelativePath | <code>string</code> | The path to the PDF document to sign, relative to the module folder.  Example : document1.pdf |
 | firstName | <code>string</code> | Firstname of the person that will sign |
 | lastName | <code>string</code> | Lastname of the person that will sign |
 | email | <code>string</code> | Email of the person that will sign |
 | phone | <code>string</code> | Phone of the person that will sign, including prefix (+33...).  Must be a real Phone number as the user will receive an SMS confirmation code. |
-| signatureCoordinates | <code>string</code> | Pixel coordinates of the rectangle where the signature will  appear on the document. Example : 351,32,551,132 |
+| signatures | <code>array</code> | An array of objects, each object containing the following data for a signature :  page, pixel coordinates of the rectangle where it will appear. Example for two signatures on page 2 and 4: [{rectangleCoords: "337,59,572,98", page:"2"}, {rectangleCoords: "337,193,572,232", page:"4"}], If you only have one signature, and want to put on page 1, you can send only a string of coordinates instead of an array : "337,59,572,98" |
 | userSuccessRedirectUrl | <code>string</code> | A url where the user will be redirected to after he signs |
 | userCancelRedirectUrl | <code>string</code> | A url where the user will be redirected to after he cancels  the signature process |
 | onSignatureStatusChangedUrl | <code>string</code> | The YouSign server will send GET requests to this url  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete |

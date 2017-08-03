@@ -35,28 +35,35 @@ function checkAuth() {
 
 /**
  * @desc Inits a signature and returns the url of the signing page 
- * @param {string} fileToSignAbsolutePath - The path to the PDF document to sign. 
- * Example : __dirname + '/document1.pdf'
+ * @param {string} fileToSignRelativePath - The path to the PDF document to sign, relative to the module folder. 
+ * Example : document1.pdf
  * @param {string} firstName - Firstname of the person that will sign
  * @param {string} lastName - Lastname of the person that will sign
  * @param {string} email - Email of the person that will sign
  * @param {string} phone - Phone of the person that will sign, including prefix (+33...). 
  * Must be a real Phone number as the user will receive an SMS confirmation code.
- * @param {string} signatureCoordinates - Pixel coordinates of the rectangle where the signature will
- *  appear on the document. Example : 351,32,551,132
+ * @param {array} signatures - An array of objects, each object containing the following data for a signature : 
+ * page, pixel coordinates of the rectangle where it will appear. Example for two signatures on page 2 and 4:
+ * [{rectangleCoords: "337,59,572,98", page:"2"}, {rectangleCoords: "337,193,572,232", page:"4"}],
+ * If you only have one signature, and want to put on page 1, you can send only a string of coordinates instead of an array : "337,59,572,98"
  * @param {string} userSuccessRedirectUrl - A url where the user will be redirected to after he signs
  * @param {string} userCancelRedirectUrl - A url where the user will be redirected to after he cancels
  *  the signature process
  * @param {string} onSignatureStatusChangedUrl - The YouSign server will send GET requests to this url
  *  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete
- * @returns {*} promise - a promise that resolves to an object containing : 
- * {string} iframeUrl - the url of the iframe to do the signature 
- * {object} details - details of the signature, contains de demand ID as well as the signature token
- * which can be used later on to match the token sent to onSignatureStatusChangedUrl by YouSign
+ * @returns {string} iframeUrl - the url of the iframe to do the signature
+ * @returns {object} details - details of the signature, contains de demand ID which can be used later on
  */
-function initSignature(fileToSignAbsolutePath, firstname, lastname, email, phone,
-    signatureCoordinates, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) {
+function initSignature(fileToSignRelativePath, firstname, lastname, email, phone,
+    signatures, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) {
     return new Promise((resolve, reject)=>{
+        if(typeof signatures == 'object'){
+            var signatureList = []
+            signatures.forEach((signature)=>{
+                signatureList.push(signature.rectangleCoords + "-" + signature.page)
+            })
+            signatures = signatureList.join("_")
+        }
         var command = ["php", "initSignature.php"].concat(Array.from(arguments))
         if(command.length < 8){
             return reject(buildError("Missing parameters"))

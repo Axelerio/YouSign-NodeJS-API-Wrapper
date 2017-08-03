@@ -18,9 +18,10 @@ $firstName = isset($argv[2]) ? $argv[2] : false;
 $lastName = isset($argv[3]) ? $argv[3] : false;
 $mail = isset($argv[4]) ? $argv[4] : false;
 $phone = isset($argv[5]) ? $argv[5] : false;
-$signatureRectangleCoords = isset($argv[6]) ? $argv[6] : false;
+$signatures = isset($argv[6]) ? $argv[6] : false;
 
-if(!($documentToSignAbsolutePath && $firstName && $lastName && $mail && $phone && $signatureRectangleCoords)){
+
+if(!($documentToSignAbsolutePath && $firstName && $lastName && $mail && $phone && $signatures)){
      $output = array("success" => false, 
     "errors" => "Missing parameters. You must send : documentToSignRelativePath firstName lastName mail phone signatureRectangleCoords\n Example : php initSignature.php document1.pdf jean dubois jean@dubois.org +33674997509 351,32,551,132");
 } else {
@@ -57,19 +58,47 @@ if(!($documentToSignAbsolutePath && $firstName && $lastName && $mail && $phone &
         )
     );
 
+    // Nombre de signatures
+    $signaturesArray = array();
+    $splitSignatures = explode("-", $signatures);
+    
+    //Cas où on nous a envoyé seulement des coordonnées et pas une liste de couples coords/page (rétrocompatibilité)
+    if(!isset($splitSignatures[1])){
+        $signaturesArray[] =
+            array (
+                'visibleSignaturePage' => '1', // Sur la 1er page
+                'isVisibleSignature' => true,
+                'visibleRectangleSignature' => $signatures, //'351,32,551,132',
+                'mail' => $mail
+            );
+    } else {
+        $parsedSignatures = explode("_", $signatures);
+        // Application des valeurs par défaut si il en manque
+        foreach($parsedSignatures as $index => $signature){
+            $signature = explode("-", $signature);
+            $rectangle = $signature[0];
+            $page = $signature[1];
+            if(!isset($rectangle)){
+                $rectangle = '351,32,551,132';
+            }
+            if(!isset($page)){
+                $page = '1';
+            }
+            $signaturesArray[] =
+                array (
+                    'visibleSignaturePage' => $page,
+                    'isVisibleSignature' => true,
+                    'visibleRectangleSignature' => $rectangle,
+                    'mail' => $mail
+                );
+        }
+    }
+
     // Placement des signatures sur le document
     $visibleOptions = array
     (
         // Placement des signatures pour le 1er document
-        $listFiles[0]['idFile'] => array
-        (
-            array (
-                'visibleSignaturePage' => '1', // Sur la 1er page
-                'isVisibleSignature' => true,
-                'visibleRectangleSignature' => $signatureRectangleCoords,//'351,32,551,132',
-                'mail' => $mail,
-            )
-        )
+        $listFiles[0]['idFile'] => $signaturesArray
     );
 
     // Message vide car on est en mode Iframe
