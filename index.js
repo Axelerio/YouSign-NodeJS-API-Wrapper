@@ -35,7 +35,9 @@ function checkAuth() {
 
 /**
  * @desc Inits a signature and returns the url of the signing page 
- * @param {string} fileToSignRelativePath - The path to the PDF document to sign, relative to the module folder. 
+ * @param {array} filesToSign - An array of absolute paths to the documents that you wish to sign. 
+ * Example : [/Users/joe/document1.pdf, /Users/joe/document2.pdf]
+ * Alternatively, you can send a string if you only have one file to sign
  * Example : document1.pdf
  * @param {string} firstName - Firstname of the person that will sign
  * @param {string} lastName - Lastname of the person that will sign
@@ -43,9 +45,12 @@ function checkAuth() {
  * @param {string} phone - Phone of the person that will sign, including prefix (+33...). 
  * Must be a real Phone number as the user will receive an SMS confirmation code.
  * @param {array} signatures - An array of objects, each object containing the following data for a signature : 
- * page, pixel coordinates of the rectangle where it will appear. Example for two signatures on page 2 and 4:
- * [{rectangleCoords: "337,59,572,98", page:"2"}, {rectangleCoords: "337,193,572,232", page:"4"}],
- * If you only have one signature, and want to put on page 1, you can send only a string of coordinates instead of an array : "337,59,572,98"
+ * page, document number, pixel coordinates of the rectangle where it will appear. Example for two signatures on page 2 and 4
+ * on the first document of the filesToSign, and on page 2 of the second document:
+ * [{rectangleCoords: "337,59,572,98", page:"2", document:"1"}, {rectangleCoords: "337,193,572,232", page:"4", document:"1"},
+ * {rectangleCoords: "100,200,300,400", page:"2", document:"2"}],
+ * If you only have one signature, and want to put on page 1 of first document, you can send only a string of coordinates
+ * instead of an array : "337,59,572,98"
  * @param {string} userSuccessRedirectUrl - A url where the user will be redirected to after he signs
  * @param {string} userCancelRedirectUrl - A url where the user will be redirected to after he cancels
  *  the signature process
@@ -54,15 +59,24 @@ function checkAuth() {
  * @returns {string} iframeUrl - the url of the iframe to do the signature
  * @returns {object} details - details of the signature, contains de demand ID which can be used later on
  */
-function initSignature(fileToSignRelativePath, firstname, lastname, email, phone,
+function initSignature(filesToSign, firstname, lastname, email, phone,
     signatures, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl) {
     return new Promise((resolve, reject)=>{
+
+        //Array of signature objects instead of one string
         if(typeof signatures == 'object'){
             var signatureList = []
             signatures.forEach((signature)=>{
-                signatureList.push(signature.rectangleCoords + "-" + signature.page)
+                signatureList.push(signature.rectangleCoords + 
+                "-" + signature.page + 
+                "-" + (signature.document ? signature.document : 0))
             })
             signatures = signatureList.join("_")
+        }
+
+        //Array of file paths instead of one string
+        if(typeof filesToSign == 'object'){
+            filesToSign = filesToSign.join("[]_THIS_IS_A_BIG_SEPARATOR_[]")
         }
         var command = ["php", "initSignature.php"].concat(Array.from(arguments))
         if(command.length < 8){
