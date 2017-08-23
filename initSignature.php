@@ -13,13 +13,12 @@ error_reporting(E_ERROR | E_PARSE | E_NOTICE);
  */
 
  // Parse parameters
-$filesToSignPaths = isset($argv[1]) ? $argv[1] : false;
-$firstName = isset($argv[2]) ? $argv[2] : false;
-$lastName = isset($argv[3]) ? $argv[3] : false;
-$mail = isset($argv[4]) ? $argv[4] : false;
-$phone = isset($argv[5]) ? $argv[5] : false;
-$signatures = isset($argv[6]) ? $argv[6] : false;
-
+$filesToSignPaths = isset($argv[1]) ? base64_decode($argv[1]) : false;
+$firstName = isset($argv[2]) ? base64_decode($argv[2]) : false;
+$lastName = isset($argv[3]) ? base64_decode($argv[3]) : false;
+$mail = isset($argv[4]) ? base64_decode($argv[4]) : false;
+$phone = isset($argv[5]) ? base64_decode($argv[5]) : false;
+$signatures = isset($argv[6]) ? base64_decode($argv[6]) : false;
 
 if(!($filesToSignPaths && $firstName && $lastName && $mail && $phone && $signatures)){
      $output = array("success" => false, 

@@ -78,7 +78,14 @@ function initSignature(filesToSign, firstname, lastname, email, phone,
         if(typeof filesToSign == 'object'){
             filesToSign = filesToSign.join("[]_THIS_IS_A_BIG_SEPARATOR_[]")
         }
-        var command = ["php", "initSignature.php"].concat(Array.from(arguments))
+
+        //Base64 encode arguments so that we don't send invalid chars in shell
+        var args = Array.from(arguments)
+        var encodedArguments = []
+        args.forEach((argument)=>{
+            encodedArguments.push(Buffer.from(argument).toString('base64'))
+        })
+        var command = ["php", "initSignature.php"].concat(encodedArguments)
         if(command.length < 8){
             return reject(buildError("Missing parameters"))
         }
