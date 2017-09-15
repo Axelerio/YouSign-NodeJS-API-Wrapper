@@ -194,7 +194,8 @@ function listSignatures(email) {
 module.exports = {
     initSignature: initSignature,
     checkAuth: checkAuth,
-    listSignatures: listSignatures
+    listSignatures: listSignatures,
+    downloadSignaturesFiles: downloadSignaturesFiles
 }
 
 // Example call :
