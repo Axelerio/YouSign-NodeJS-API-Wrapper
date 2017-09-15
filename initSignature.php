@@ -154,3 +154,4 @@ if(!($filesToSignPaths && $firstName && $lastName && $mail && $phone && $signatu
     }
 }
 echo (json_encode($output, JSON_UNESCAPED_SLASHES));
+?>

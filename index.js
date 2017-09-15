@@ -117,6 +117,48 @@ function initSignature(filesToSign, firstname, lastname, email, phone,
 }
 
 /**
+ * @desc Downloads all the files in the signature process corresponding to the search parameter provided
+ * @param {string} search - The YouSign search parameters. This can be the email of the person who signed, the filename...
+ * Example : john@test.com - will download all the files in a signature process with john@test.com
+ * @param {string} absoluteOutFolderPath - An absolute path to the output folder for the downloaded files (without trailing /)
+ * Example : /Users/joe/out - the folder MUST already exist and be writeable
+ */
+function downloadSignaturesFiles(search, absoluteOutFolderPath) {
+    return new Promise((resolve, reject)=>{
+
+        //Base64 encode arguments so that we don't send invalid chars in shell
+        var args = Array.from(arguments)
+        var encodedArguments = []
+        args.forEach((argument)=>{
+            encodedArguments.push(Buffer.from(argument).toString('base64'))
+        })
+        var command = ["php", "downloadSignaturesFiles.php"].concat(encodedArguments)
+        if(command.length < 4){
+            return reject(buildError("Missing parameters"))
+        }
+        exec(command.join(' '), { cwd: __dirname }, (error, stdout, stderr)=>{
+            if(!error && !stderr){
+                try{
+                    var result = JSON.parse(stdout)
+                } catch(e){
+                    var err = "downloadSignaturesFiles - could not parse result: " + stdout
+                    console.error(err)
+                }
+                if(err){
+                    return reject(buildError(err))
+                } else if(result.success != true){
+                    return reject(result)
+                } else {
+                    return resolve(result)
+                }
+            } else {
+                return reject(buildError(error, stderr))
+            }
+        })
+    })
+}
+
+/**
  * @desc Lists the existing signatures and the corresponding statuses for an email
  * @param {string} email - Email of the person whose signatures we want to get
  */

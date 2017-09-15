@@ -38,6 +38,9 @@ ysAPIWrapper.listSignatures("jean@dubois.org").then((res)=>{
 <dt><a href="#initSignature">initSignature(filesToSign, firstName, lastName, email, phone, signatures, userSuccessRedirectUrl, userCancelRedirectUrl, onSignatureStatusChangedUrl)</a> ⇒ <code>string</code> | <code>object</code></dt>
 <dd><p>Inits a signature and returns the url of the signing page</p>
 </dd>
+<dt><a href="#downloadSignaturesFiles">downloadSignaturesFiles(search, absoluteOutFolderPath)</a></dt>
+<dd><p>Downloads all the files in the signature process corresponding to the search parameter provided</p>
+</dd>
 <dt><a href="#listSignatures">listSignatures(email)</a></dt>
 <dd><p>Lists the existing signatures and the corresponding statuses for an email</p>
 </dd>
@@ -59,7 +62,7 @@ Inits a signature and returns the url of the signing page
 
 | Param | Type | Description |
 | --- | --- | --- |
-| filesToSign | <code>filesToSign</code> | An array of absolute paths to the documents that you wish to sign.  Example : [/Users/joe/document1.pdf, /Users/joe/document2.pdf] Alternatively, you can send a string if you only have one file to sign Example : document1.pdf |
+| filesToSign | <code>array</code> | An array of absolute paths to the documents that you wish to sign.  Example : [/Users/joe/document1.pdf, /Users/joe/document2.pdf] Alternatively, you can send a string if you only have one file to sign Example : document1.pdf |
 | firstName | <code>string</code> | Firstname of the person that will sign |
 | lastName | <code>string</code> | Lastname of the person that will sign |
 | email | <code>string</code> | Email of the person that will sign |
@@ -68,6 +71,18 @@ Inits a signature and returns the url of the signing page
 | userSuccessRedirectUrl | <code>string</code> | A url where the user will be redirected to after he signs |
 | userCancelRedirectUrl | <code>string</code> | A url where the user will be redirected to after he cancels  the signature process |
 | onSignatureStatusChangedUrl | <code>string</code> | The YouSign server will send GET requests to this url  when the signature status changes. Statuses can be : init, cancel, waiting, signed, signed_complete |
+
+<a name="downloadSignaturesFiles"></a>
+
+## downloadSignaturesFiles(search, absoluteOutFolderPath)
+Downloads all the files in the signature process corresponding to the search parameter provided
+
+**Kind**: global function
+
+| Param | Type | Description |
+| --- | --- | --- |
+| search | <code>string</code> | The YouSign search parameters. This can be the email of the person who signed, the filename... Example : john@test.com - will download all the files in a signature process with john@test.com |
+| absoluteOutFolderPath | <code>string</code> | An absolute path to the output folder for the downloaded files (without trailing /) Example : /Users/joe/out - the folder MUST already exist and be writeable |
 
 <a name="listSignatures"></a>
 
